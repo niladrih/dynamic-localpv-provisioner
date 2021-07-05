@@ -27,7 +27,7 @@ Local PV Provisioner BDD tests are developed using ginkgo & gomega libraries.
   to be available in the cluster.
 
 - Install required OpenEBS components. 
-  Example: `kubectl apply -f openebs-operator.yaml`
+  Example: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-lite.yaml -f https://openebs.github.io/charts/openebs-lite-sc.yaml`
 
 ### Run tests
 
