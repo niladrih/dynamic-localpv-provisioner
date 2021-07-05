@@ -43,16 +43,23 @@ func isValidPath(hostpath string) bool {
 	return true
 }
 
+func isCompatibleWithLocalPVcasType(s *storagev1.StorageClass) bool {
+	if scCASTypeStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASTypeKey)]; ok {
+		if scCASTypeStr != localPVcasTypeValue && scCASTypeStr != "" {
+			return false
+		}
+	}
+	return true
+}
+
 // Used to check if the cas.openebs.io/config value string
 // has valid parameters for hostpath or not
 // e.g.
 // Parameters like 'BlockDeviceTag', already existing 'StorageType'
 // are incompatible.
 func isCompatibleWithHostpath(s *storagev1.StorageClass) bool {
-	if scCASTypeStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASTypeKey)]; ok {
-		if scCASTypeStr != localPVcasTypeValue && scCASTypeStr != "" {
-			return false
-		}
+	if !isCompatibleWithLocalPVcasType(s) {
+		return false
 	}
 
 	if scCASConfigStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASConfigKey)]; ok {
@@ -81,10 +88,8 @@ func isCompatibleWithHostpath(s *storagev1.StorageClass) bool {
 }
 
 func isCompatibleWithNodeAffinityLabel(s *storagev1.StorageClass) bool {
-	if scCASTypeStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASTypeKey)]; ok {
-		if scCASTypeStr != localPVcasTypeValue && scCASTypeStr != "" {
-			return false
-		}
+	if !isCompatibleWithLocalPVcasType(s) {
+		return false
 	}
 
 	if scCASConfigStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASConfigKey)]; ok {
@@ -122,10 +127,8 @@ func isCompatibleWithNodeAffinityLabel(s *storagev1.StorageClass) bool {
 }
 
 func isCompatibleWithDevice(s *storagev1.StorageClass) bool {
-	if scCASTypeStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASTypeKey)]; ok {
-		if scCASTypeStr != localPVcasTypeValue && scCASTypeStr != "" {
-			return false
-		}
+	if !isCompatibleWithLocalPVcasType(s) {
+		return false
 	}
 
 	if scCASConfigStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASConfigKey)]; ok {
@@ -156,10 +159,8 @@ func isCompatibleWithDevice(s *storagev1.StorageClass) bool {
 }
 
 func isCompatibleWithFSType(s *storagev1.StorageClass) bool {
-	if scCASTypeStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASTypeKey)]; ok {
-		if scCASTypeStr != localPVcasTypeValue && scCASTypeStr != "" {
-			return false
-		}
+	if !isCompatibleWithLocalPVcasType(s) {
+		return false
 	}
 
 	if scCASConfigStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASConfigKey)]; ok {
@@ -205,10 +206,8 @@ func isValidFilesystem(filesystem string) bool {
 }
 
 func isCompatibleWithBlockDeviceTag(s *storagev1.StorageClass) bool {
-	if scCASTypeStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASTypeKey)]; ok {
-		if scCASTypeStr != localPVcasTypeValue && scCASTypeStr != "" {
-			return false
-		}
+	if !isCompatibleWithLocalPVcasType(s) {
+		return false
 	}
 
 	if scCASConfigStr, ok := s.ObjectMeta.Annotations[string(mconfig.CASConfigKey)]; ok {
