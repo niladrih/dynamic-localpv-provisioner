@@ -455,10 +455,7 @@ func (ops *Operations) RestartPodEventually(podObj *corev1.Pod) error {
 func (ops *Operations) IsPVCDeleted(pvcName string) bool {
 	_, err := ops.PVCClient.
 		Get(pvcName, metav1.GetOptions{})
-	if isNotFound(err) {
-		return true
-	}
-	return false
+	return isNotFound(err)
 }
 
 // IsPVCDeletedEventually tries to get the deleted pvc

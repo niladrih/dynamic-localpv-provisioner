@@ -17,6 +17,7 @@ package artifacts
 import (
 	"errors"
 	"io/ioutil"
+	"path/filepath"
 	"strings"
 
 	k8s "github.com/openebs/maya/pkg/client/k8s/v1alpha1"
@@ -74,6 +75,7 @@ func parseK8sYaml(yamls string) (k8s.UnstructedList, []error) {
 
 // parseK8sYamlFromFile parses the kubernetes yaml and returns the objects in a UnstructuredList
 func parseK8sYamlFromFile(filename string) (k8s.UnstructedList, []error) {
+	filename = filepath.Clean(filename)
 	fileBytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return k8s.UnstructedList{}, []error{err}
